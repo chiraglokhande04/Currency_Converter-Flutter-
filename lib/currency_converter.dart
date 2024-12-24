@@ -10,11 +10,23 @@ class CurrencyConverterMaterialPage extends StatefulWidget {
 }
 
 class _CurrencyConverterMaterialPageState extends State<StatefulWidget> {
+  double result = 0;
+  final TextEditingController textEditingController = TextEditingController();
+
+  void convert() {
+    setState(() {
+      result = double.parse(textEditingController.text) / 85.19;
+    });
+  }
+
+  @override
+  void dispose() {
+    textEditingController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    double result = 0;
-
-    final TextEditingController textEditingController = TextEditingController();
     return Scaffold(
       backgroundColor: Colors.blueGrey,
       appBar: AppBar(
@@ -27,10 +39,11 @@ class _CurrencyConverterMaterialPageState extends State<StatefulWidget> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              result.toString(),
-              style: const TextStyle(fontSize: 45, fontWeight: FontWeight.bold),
+              '${result.toStringAsFixed(2)} dollars',
+              style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
-            Padding(
+            Container(
+              margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 controller: textEditingController,
@@ -64,9 +77,7 @@ class _CurrencyConverterMaterialPageState extends State<StatefulWidget> {
               ),
             ),
             ElevatedButton(
-              onPressed: () {
-                result = double.parse(textEditingController.text * 81);
-              },
+              onPressed: convert,
               // style: const ButtonStyle(
               //   elevation: WidgetStatePropertyAll(5),
               //   backgroundColor: WidgetStatePropertyAll(Colors.black),
